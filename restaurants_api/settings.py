@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'corsheaders',
+    'drf_yasg',  # Swagger/OpenAPI documentation
     'restaurants',
 ]
 

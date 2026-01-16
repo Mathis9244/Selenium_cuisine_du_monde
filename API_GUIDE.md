@@ -12,6 +12,17 @@ python manage.py runserver
 
 L'API sera accessible sur : **http://localhost:8000/api/restaurants/**
 
+## 📚 Documentation Swagger/OpenAPI
+
+La documentation interactive de l'API est disponible via Swagger :
+
+- **Swagger UI** : http://localhost:8000/swagger/
+- **ReDoc** : http://localhost:8000/redoc/
+- **Schema JSON** : http://localhost:8000/swagger.json
+- **Schema YAML** : http://localhost:8000/swagger.yaml
+
+Tu peux tester tous les endpoints directement depuis l'interface Swagger !
+
 ## 📡 Endpoints disponibles
 
 ### 1. Liste des restaurants
