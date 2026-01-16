@@ -120,11 +120,48 @@ Voir `API_GUIDE.md` pour plus de détails.
 └── README.md             # Ce fichier
 ```
 
-## 🌐 Déploiement
+## 🐳 Déploiement avec Docker
 
-### ⚠️ Important : Netlify n'est pas adapté
+### Développement local avec Docker Compose
 
-Netlify est conçu pour les sites statiques, pas pour Django qui nécessite un serveur WSGI continu.
+```bash
+# Lancer l'application avec Docker Compose
+docker-compose up --build
+
+# L'application sera accessible sur http://localhost:8000
+```
+
+### Build de l'image Docker
+
+```bash
+# Construire l'image
+docker build -t restaurants-api .
+
+# Lancer le container
+docker run -p 8000:8000 -e DATABASE_URL=postgresql://... restaurants-api
+```
+
+## 🌐 Déploiement sur Render
+
+### Option 1 : Déploiement automatique avec render.yaml
+
+1. Connecte ton repo GitHub à Render
+2. Render détectera automatiquement le fichier `render.yaml`
+3. Configure la variable d'environnement `DATABASE_URL`
+4. Render déploiera automatiquement avec Docker
+
+### Option 2 : Déploiement manuel
+
+1. Crée un nouveau **Web Service** sur Render
+2. Connecte ton repo GitHub
+3. Configuration :
+   - **Build Command** : `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+   - **Start Command** : `gunicorn restaurants_api.wsgi:application --bind 0.0.0.0:$PORT`
+   - **Environment** : 
+     - `DATABASE_URL` : Ta connexion PostgreSQL
+     - `SECRET_KEY` : Génère une clé secrète
+     - `DEBUG` : `False`
+     - `ALLOWED_HOSTS` : `ton-app.onrender.com`
 
 ### Alternatives recommandées :
 
@@ -135,12 +172,7 @@ Netlify est conçu pour les sites statiques, pas pour Django qui nécessite un s
    railway up
    ```
 
-2. **Render** (gratuit avec limitations)
-   - Connecter le repo GitHub
-   - Créer un Web Service
-   - Configurer : `gunicorn restaurants_api.wsgi:application`
-
-3. **Fly.io** (gratuit)
+2. **Fly.io** (gratuit)
    ```bash
    flyctl launch
    flyctl deploy
